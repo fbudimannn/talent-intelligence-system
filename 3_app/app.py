@@ -128,7 +128,7 @@ with st.sidebar:
         options=employee_list_df['display'], # Show "Fullname (ID)"
         max_selections=3,
         # Set default selections based on predefined IDs
-        default=[emp['display'] for _, emp in employee_list_df.iterrows() if emp['employee_id'] in ['EMP100024', 'EMP100075', 'EMP100319']][:3]
+        default=[emp['display'] for _, emp in employee_list_df.iterrows() if emp['employee_id'] in ['EMP100012', 'EMP100524', 'EMP100548']][:3]
     )
     # Extract only the employee IDs from the selected display strings
     selected_benchmark_ids = [display_str.split('(')[-1].replace(')', '') for display_str in selected_benchmarks]
@@ -146,7 +146,7 @@ if generate_button:
         # Format the selected employee IDs into a PostgreSQL array string for the SQL query
         sql_array_string = "ARRAY[" + ",".join([f"'{eid}'" for eid in selected_benchmark_ids]) + "]::text[]"
         # Replace the placeholder array in the base SQL query with the selected IDs
-        parameterized_query = base_sql_query.replace("ARRAY['EMP100024', 'EMP100075', 'EMP100319']::text[]", sql_array_string)
+        parameterized_query = base_sql_query.replace("ARRAY['EMP100012','EMP100524','EMP100548']::text[]", sql_array_string)
 
         # Show a spinner while the query is running
         with st.spinner("Analyzing talent data... ⏳"):
@@ -232,7 +232,6 @@ if 'sql_results' in st.session_state:
         df_ranked_candidates.insert(0, 'Rank', range(1, len(df_ranked_candidates) + 1))
 
         # Display the ranked list using Streamlit's DataFrame component
-        st.caption("ℹ️ Benchmark employees are excluded from this ranked list.")
         st.dataframe(
             # Select and order columns for display, including the new 'top_tgv'
             df_ranked_candidates[['Rank', 'employee_id', 'fullname', 'role', 'grade', 'directorate', 'top_tgv', 'final_match_rate']],
@@ -380,6 +379,6 @@ if 'sql_results' in st.session_state:
 
     # General error catching for the results display section
     except Exception as e:
-        st.error(f"An error occurred while processing and displaying results: {e}")
+        st.error(f"An error occurred while processing and displaying results: {e}") 
         st.exception(e) # Optionally print the full traceback for debugging
 

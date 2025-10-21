@@ -266,7 +266,7 @@ papi_cleaned_imputed as (
 
 target_vacancy as(
   SELECT 
-    ARRAY['EMP100024', 'EMP100075', 'EMP100319']::text[] as selected_talent_ids 
+    ARRAY['EMP100012', 'EMP100524','EMP100548']::text[] as selected_talent_ids 
 ),
 
 
@@ -331,7 +331,7 @@ benchmark_baseline as(
       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY m.tenure_months) as baseline_tenure
   
   FROM 
-    (SELECT unnest(ARRAY['EMP100024', 'EMP100075', 'EMP100319']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
+    (SELECT unnest(ARRAY['EMP100012','EMP100524', 'EMP100548']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
   
   LEFT JOIN main_cleaned_imputed as m 
   ON benchmark_ids.employee_id = m.employee_id
