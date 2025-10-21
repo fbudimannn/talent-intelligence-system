@@ -858,8 +858,8 @@ ON dsr.employee_id = m.employee_id
 
 CROSS JOIN target_vacancy as tv
     
-ORDER BY  dsr.final_match_rate DESC,           
-tv_match_rate DESC
+ORDER BY  is_benchmark ASC, 
+    final_match_rate DESC,  
+    m.employee_id,           
+    dsr.tgv_name
     
-
-LIMIT 310
