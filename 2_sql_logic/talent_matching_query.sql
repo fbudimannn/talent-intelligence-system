@@ -855,11 +855,10 @@ FROM detailed_scores_with_ratio as dsr
 LEFT JOIN  main_cleaned_imputed as m 
 ON dsr.employee_id = m.employee_id
     
---WHERE dsr.employee_id NOT IN (SELECT unnest(selected_talent_ids) FROM target_vacancy)
+
 CROSS JOIN target_vacancy as tv
     
-ORDER BY  dsr.final_match_rate DESC,           
-tv_match_rate DESC
+ORDER BY is_benchmark ASC,dsr.final_match_rate DESC
     
 
 LIMIT 310
