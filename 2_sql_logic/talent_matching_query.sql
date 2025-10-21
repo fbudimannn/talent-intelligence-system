@@ -847,14 +847,16 @@ SELECT
     -- Match Scores
     dsr.match_score  as tv_match_rate,
     ROUND(dsr.tgv_match_ratio,2) as tgv_match_rate,
-    ROUND (dsr.final_match_rate,2) as final_match_rate
+    ROUND (dsr.final_match_rate,2) as final_match_rate,
+    CASE WHEN m.employee_id = ANY(selected_talent_ids) THEN TRUE ELSE FALSE END AS is_benchmark
     
 FROM detailed_scores_with_ratio as dsr 
     
 LEFT JOIN  main_cleaned_imputed as m 
 ON dsr.employee_id = m.employee_id
     
-WHERE dsr.employee_id NOT IN (SELECT unnest(selected_talent_ids) FROM target_vacancy)
+--WHERE dsr.employee_id NOT IN (SELECT unnest(selected_talent_ids) FROM target_vacancy)
+CROSS JOIN target_vacancy as tv
     
 ORDER BY  dsr.final_match_rate DESC,           
 tv_match_rate DESC
