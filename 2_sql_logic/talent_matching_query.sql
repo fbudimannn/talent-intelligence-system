@@ -860,6 +860,5 @@ CROSS JOIN target_vacancy as tv
     
 ORDER BY  is_benchmark ASC, 
     final_match_rate DESC,  
-    m.employee_id,           
-    dsr.tgv_name
+    m.employee_id
     
