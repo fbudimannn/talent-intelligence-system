@@ -380,4 +380,3 @@ if 'sql_results' in st.session_state:
     except Exception as e:
         st.error(f"An error occurred while processing and displaying results: {e}") 
         st.exception(e) # Optionally print the full traceback for debugging
-
