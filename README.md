@@ -27,10 +27,10 @@ This application shifts from subjective recruiting to data-driven matching. It d
 ## 📁 Repository Structure
 
 talent-match-intelligence/
-    .gitignore # Ignores secret and unnecessary files (e.g., .env)
-    .env.example # Template for environment variables
-    README.md # Project documentation (you are here)
-    requirements.txt # List of required Python libraries
+   └── .gitignore # Ignores secret and unnecessary files (e.g., .env)
+   └── .env.example # Template for environment variables
+   └──  README.md # Project documentation (you are here)
+   └──requirements.txt # List of required Python libraries
 
     1_analysis/
     └── data_exploration.ipynb # Jupyter Notebook for initial data exploration and analysis
