@@ -58,11 +58,11 @@ This application shifts from subjective recruiting to data-driven matching. It d
 2.  **Create and activate a virtual environment:**
     ```bash
     # For MacOS/Linux
-    python3 -m venv venv
+    python3 -m venv .talentint
     source venv/bin/activate
 
     # For Windows
-    python -m venv venv
+    python -m venv .talentint
     .\venv\Scripts\activate
     ```
 
