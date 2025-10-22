@@ -1,6 +1,5 @@
 ---- PHASE 1: DATA CLEANING AND IMPUTATION------
 
-
 --- STEP/CTE 1.A: Calculating Competency Medians ---
 ----Objective : Calculate the median score per 'pillar_code' (only from the 2025 valid data)
 ----This is for imputation of missing/odd competency data.
@@ -268,7 +267,6 @@ target_vacancy as(
   SELECT 
     ARRAY['EMP100012', 'EMP100524', 'EMP100548']::text[] as selected_talent_ids 
 ),
-
 
 -- STEP/CTE 2.B: Calculate the "Ideal" Benchmark Baseline
 -- Objective: Translate  TGV Mapping into a 1-row ideal profile.
