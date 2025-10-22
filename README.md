@@ -95,9 +95,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
     ```
 
 
-
-7.  Open `http://localhost:8501` in your browser. or `http://192.168.1.9:8501` for network URL
-
+7.  Open `http://localhost:8501` in your browser
 
 
 
@@ -106,7 +104,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
 1.  In the left sidebar, fill in the **Vacancy Details** (Role Name, Job Level, Role Purpose).
 2.  From the **"Select up to 3 benchmark employees"** dropdown, pick 1-3 employees who represent your "ideal" profile.
 3.  Click the **"✨ Generate Profile & Matches"** button.
-4.  Wait a moment for the SQL query and AI call to complete. ** Please click Generate again within the app if there are some errors when click it for the first time*
+4.  Wait a moment for the SQL query and AI call to complete. ** Please click Generate again within the app if there are some errors when click it for the first time**
 5.  Analyze the results:
     * Review the AI-generated **Job Profile**.
     * Examine the **Ranked Talent List** to see the top fits.
