@@ -94,7 +94,6 @@ This application shifts from subjective recruiting to data-driven matching. It d
     python -m streamlit run 3_app/app.py
     ```
 
-
 7.  Open `http://localhost:8501` in your browser
 
 
