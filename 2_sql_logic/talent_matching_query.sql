@@ -172,7 +172,7 @@ ON e.directorate_id = dir.directorate_id
 LEFT JOIN profiles_psych as p_psych 
 ON e.employee_id = p_psych.employee_id
 
--- Join our cleaning helper CTEs
+-- Join cleaning helper CTEs
 LEFT JOIN cognitive_medians as cog_m 
 ON e.department_id = cog_m.department_id
 
@@ -261,7 +261,7 @@ papi_cleaned_imputed as (
 -- PHASE 2: BENCHMARKING---
 
 -- STEP/CTE 2.A: Select Target Vacancy (SIMULATED)
--- Objective: Manually define our benchmark employee IDs (rating=5 Sales Supervisors) simulating a manager's input.
+-- Objective: Manually define benchmark employee IDs (rating=5 Sales Supervisors) simulating a manager's input.
 
 target_vacancy as(
   SELECT 
