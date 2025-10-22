@@ -26,6 +26,19 @@ This application shifts from subjective recruiting to data-driven matching. It d
 
 ## 📁 Repository Structure
 
+```bash
+├── 1_analysis/
+│   └── data_exploration.ipynb # Jupyter Notebook for initial data exploration and analysis
+├── 2_sql_logic/
+│   └── talent_matching_query.sql # Main 300+ line SQL “Engine” for talent matching logic
+├── 3_app/
+│   └── app.py # Streamlit web app for user interaction and result visualization    
+├── README.md # Project documentation
+├── .env.example # Template for environment variables
+├── requirements.txt # List of required Python libraries
+└── .gitignore # Ignores secret and unnecessary files (e.g., .env)
+```
+
 talent-match-intelligence/
    └── .gitignore # Ignores secret and unnecessary files (e.g., .env)
    └── .env.example # Template for environment variables
