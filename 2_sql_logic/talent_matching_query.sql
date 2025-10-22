@@ -2,7 +2,7 @@
 
 
 --- STEP/CTE 1.A: Calculating Competency Medians ---
-----Purpose: Calculate the median score per 'pillar_code' (only from the 2025 valid data)
+----Objective : Calculate the median score per 'pillar_code' (only from the 2025 valid data)
 ----This is for imputation of missing/odd competency data.
 with competency_medians as(
  SELECT 
@@ -16,7 +16,7 @@ with competency_medians as(
 ),
 
 --- STEP/CTE 1.B: Clean and Impute Competency Scores ---
----Purpose: Create a clean 'competencies' table for 2025.
+---Objective: Create a clean 'competencies' table for 2025.
 --- Use CTE 1.A to fill in missing/odd data.
 
 competencies_cleaned_imputed as (
@@ -38,7 +38,7 @@ WHERE c.year = 2025
 ),
 
 --- STEP/CTE 1.C: Calculating Median IQ per Department ---
---Purpose: Calculate the median IQ per department.
+--Objective: Calculate the median IQ per department.
 -- This is for imputation of missing 'iq' data in the 'profiles_psych' table.
 ---- According to the step 1 , the department 4 has no value in iq amd qtq
 
@@ -56,7 +56,7 @@ GROUP BY e.department_id
 
 
 --- STEP/CTE  1.D (Final Version): Clean, Join, and Impute All Main Data ---
----Purpose: Replicate  `df_main_cleaned` from the notebook.
+---Objective: Replicate  `df_main_cleaned` from the notebook.
 ---1. Cleans MBTI typos ('intftj' -> 'UNKNOWN', UPPERCASE)
 ---2. Dynamically calculates the MBTI Mode (NOT hardcoded 'ENFP')
 ---3. Imputes NULL MBTI with the calculated mode
@@ -65,7 +65,7 @@ GROUP BY e.department_id
 ---6. Imputes DISC from disc_word 
 
 -- STEP 1.D.1: Clean MBTI Typos
--- Purpose: Clean typos BEFORE calculating the mode.
+-- Objective: Clean typos BEFORE calculating the mode.
 
 mbti_cleaned_typos as(
 SELECT
@@ -78,7 +78,7 @@ FROM profiles_psych
 ),      
 
 -- STEP 1.D.2: Calculate MBTI Mode
--- Purpose: Find the most common MBTI value (Mode) from the cleaned data.
+-- Objective: Find the most common MBTI value (Mode) from the cleaned data.
 mbti_mode as (
 SELECT 
   MODE() WITHIN GROUP (ORDER BY mbti_cleaned) as mbti_mode_value
@@ -88,7 +88,7 @@ WHERE mbti_cleaned is NOT NULL
 
 
 -- STEP/CTE 1.D (Final): Join, Clean, and Impute
--- Purpose: The main cleaned data table, replicating df_main_cleaned.
+-- Objective: The main cleaned data table, replicating df_main_cleaned.
   -- Impute Cognitive scores (from 1.C)
   -- Impute MBTI (from 1.D.1 and 1.D.2)
       -- 1. Get the cleaned mbti value
@@ -193,10 +193,10 @@ py.year = 2025
 ),
 
 ---STEP/CTE 1.E: Clean Strengths Data ---
-----Purpose: Filter 'rank' 1-5 and clean empty 'themes'.
+----Objective: Filter 'rank' 1-5 and clean empty 'themes'.
 
 -- STEP 1.E.1 : Clean all string-like NULLs 
--- PurposeClears strings '', 'nan', 'None', etc. to NULL
+-- Objective: Clears strings '', 'nan', 'None', etc. to NULL
 strengths_string_cleaned as (   
 SELECT
   employee_id,
@@ -266,7 +266,7 @@ papi_cleaned_imputed as (
 
 target_vacancy as(
   SELECT 
-    ARRAY['EMP100012', 'EMP100524','EMP100548']::text[] as selected_talent_ids 
+    ARRAY['EMP100012', 'EMP100524', 'EMP100548']::text[] as selected_talent_ids 
 ),
 
 
@@ -331,7 +331,7 @@ benchmark_baseline as(
       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY m.tenure_months) as baseline_tenure
   
   FROM 
-    (SELECT unnest(ARRAY['EMP100012','EMP100524', 'EMP100548']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
+    (SELECT unnest(ARRAY['EMP100012', 'EMP100524', 'EMP100548']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
   
   LEFT JOIN main_cleaned_imputed as m 
   ON benchmark_ids.employee_id = m.employee_id
@@ -373,7 +373,7 @@ benchmark_baseline as(
 ---- PHASE 3: UNPIVOT ALL EMPLOYEES----- 
 
 -- STEP/CTE 3.A: Unpivot All Employees
-  -- Purpose: Create a "long-format" table of ALL employees to match the TGV Mapping.
+  -- Objective: Create a "long-format" table of ALL employees to match the TGV Mapping.
   -- All user_score values are CAST to TEXT to ensure consistent data types across UNION ALL blocks.
 all_employees_unpivoted as (
         
@@ -605,7 +605,7 @@ all_employees_unpivoted as (
 
 -- PHASE 4: CALCULATE MATCH SCORE
 -- STEP/CTE 4.A: Unpivot the Benchmark Baseline
-    -- Purpose: To unpivot the 1-row "wide" baseline into a "long-format" table.
+    -- Objective: To unpivot the 1-row "wide" baseline into a "long-format" table.
     -- Numeric comparisons are later restored by re-casting user_score::numeric in the match calculation step.
 benchmark_unpivoted (tgv_name, tv_name, baseline_score, tv_type) as (
 
@@ -673,7 +673,7 @@ SELECT 'Contextual (Background)', 'Tenure', baseline_tenure::text, 'numeric' FRO
 ),
 
 -- STEP/CTE 4.B: Join User Scores with Baseline Scores
-  -- Purpose: Combining Phase 3 and Phase 4.A
+  -- Objective: Combining Phase 3 and Phase 4.A
 comparison_table as (
     SELECT
         u.employee_id,
@@ -688,7 +688,7 @@ comparison_table as (
 ),
 
 -- STEP/CTE 4.C: Calculate Individual Match Scores
-   -- Purpose: To calculate a 0 or 100 score for each variable.
+   -- Objective: To calculate a 0 or 100 score for each variable.
 individual_scores as (
     SELECT
         employee_id,
@@ -716,7 +716,7 @@ individual_scores as (
 ),
 
 -- PHASE 5: APPLY WEIGHTING (SUCCESS FORMULA)
- -- Purpose: Transform the TGV Mapping to  SQL.
+ -- Objective: Transform the TGV Mapping to  SQL.
 weights_mapping (tv_name, weight) AS (
     VALUES
         -- 1. Competency (Total: 0.675) - According to the TGV Map
@@ -763,7 +763,7 @@ weights_mapping (tv_name, weight) AS (
 ),
 
 -- STEP/CTE 5.B: Calculate Weighted Scores
-    -- Purpose: Multiply score 0/1 with the weight
+    -- Objective: Multiply score 0/1 with the weight
 weighted_scores AS (
     SELECT
         i.employee_id,
@@ -797,7 +797,7 @@ aggregated_scores as (
 ),
 
 -- STEP/CTE 6.B: Join details and calculate TGV Ratio
-    -- Purpose: Combine individual variable-level scores with employee-level aggregates.
+    -- Objective: Combine individual variable-level scores with employee-level aggregates.
     -- Adds a TGV-level ratio (normalized per category weight) to measure proportional alignment
 detailed_scores_with_ratio as (
     SELECT
@@ -855,10 +855,8 @@ FROM detailed_scores_with_ratio as dsr
 LEFT JOIN  main_cleaned_imputed as m 
 ON dsr.employee_id = m.employee_id
     
-
 CROSS JOIN target_vacancy as tv
     
-ORDER BY  is_benchmark ASC, 
+ORDER BY is_benchmark ASC, 
     final_match_rate DESC,  
-    m.employee_id
-    
+    m.employee_id  
