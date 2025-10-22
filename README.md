@@ -91,8 +91,10 @@ This application shifts from subjective recruiting to data-driven matching. It d
 
 6.  **Run the Streamlit App:**
     ```bash
-    streamlit run 3_streamlit_app/app.py
+    python -m streamlit run 3_app/app.py
     ```
+
+
 
 7.  Open `http://localhost:8501` in your browser. or `http://192.168.1.9:8501` for network URL
 
