@@ -52,7 +52,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
 1.  **Clone this repository:**
     ```bash
     git clone https://github.com/fbudimannn/talent-intelligence-system.git
-    cd [your-repo-name]
+    cd talent-intelligence-system
     ```
 
 2.  **Create and activate a virtual environment:**
