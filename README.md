@@ -43,32 +43,39 @@ This application shifts from subjective recruiting to data-driven matching. It d
 ## ⚙️ Setup & Installation
 
 ### 1. Prerequisites
-* Python (Jupyter Notebook via vscode)
-* PostgreSQL (a running database server)
+* Python 
+* VSCode with the Jupyter Notebook extension (recommended for running the `.ipynb` file)
+* PostgreSQL (a running database server, e.g., Supabase)
 * An OpenRouter Account (to get an API Key)
 
 ### 2. Installation Instructions
 
 1.  **Clone this repository:**
     ```bash
-    git clone https://github.com/fbudimannn/talent-intelligence-system.git
+    git clone [https://github.com/fbudimannn/talent-intelligence-system.git](https://github.com/fbudimannn/talent-intelligence-system.git)
     cd talent-intelligence-system
     ```
 
 2.  **Create and activate a virtual environment:**
+    *(This uses the name `.talentint` as seen in the project)*
     ```bash
     # For MacOS/Linux
     python3 -m venv .talentint
-    source venv/bin/activate
-
+    source .talentint/bin/activate
+    
     # For Windows
     python -m venv .talentint
-    .\venv\Scripts\activate
+    .\.talentint\Scripts\activate
     ```
 
-3.  **Install the required libraries:**
+3.  **Install Libraries & Link Kernel:**
     ```bash
+    # Install all required libraries
     pip install -r requirements.txt
+    
+    # Link this new environment to Jupyter/VSCode
+    # This allows you to select ".talentint" as the kernel in your notebook
+    python -m ipykernel install --user --name=.talentint --display-name "Python (.talentint)"
     ```
 
 4.  **Database Setup:**
@@ -81,12 +88,13 @@ This application shifts from subjective recruiting to data-driven matching. It d
     ```
     Open the new `.env` file and fill in your credentials:
     ```
-    DB_HOST=localhost
+    # Example for a local database or cloud DB
+    DB_HOST=
     DB_PORT=5432
-    DB_NAME=[your-database-name]
-    DB_USER=[your-username]
-    DB_PASSWORD=[your-password]
-    OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxx
+    DB_NAME=
+    DB_USER=
+    DB_PASSWORD=
+    OPENROUTER_API_KEY=
     ```
 
 6.  **Run the Streamlit App:**
@@ -94,7 +102,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
     python -m streamlit run 3_app/app.py
     ```
 
-7.  Open `http://localhost:8501` in your browser
+7.  Open `http://localhost:8501` in your browser.
 
 
 
@@ -109,6 +117,14 @@ This application shifts from subjective recruiting to data-driven matching. It d
     * Examine the **Ranked Talent List** to see the top fits.
     * View the **Dashboard Visualizations** for a macro overview of the talent pool.
     * In the **"Benchmark vs. Candidate Comparison"** section, select a candidate to see their drill-down radar chart and gap analysis.
+
+## 📸 Application Screenshots
+
+*(As requested for the review process, here are screenshots of the running application)*
+
+| Main View (Ranking & Aggregates) | Drill-Down View (Gap Analysis) | AI Job Profile View |
+| :---: | :---: | :---: |
+| ![Main Dashboard View](https://github.com/user-attachments/assets/e53f6853-e7c8-439a-a518-826a2d18be8e) | ![Candidate Drill-Down View](https://github.com/user-attachments/assets/ec68d3af-8c1a-46b4-9084-ced3f28f80aa) | ![AI Job Profile View](https://github.com/user-attachments/assets/698f748b-2c6c-4e71-a1f7-99dd02666063) |
 
 ##  Core Logic: The SQL "Engine"
 
