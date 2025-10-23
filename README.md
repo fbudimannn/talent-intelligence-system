@@ -4,6 +4,9 @@ This repository contains the code for the **"Talent Match Intelligence System,"*
 
 This application shifts from subjective recruiting to data-driven matching. It dynamically ranks all employees against an "ideal" profile generated in real-time from 1-3 manager-selected benchmark employees. At its core is a weighted **"Success Formula"** derived from Exploratory Data Analysis (EDA) to prioritize candidates based on proven drivers of success (like `Competency`) and de-prioritize statistically insignificant factors (like `Cognitive Scores`).
 
+### ✨ Live Application Demo ✨
+<https://talent-intelligence-system-fakhri.streamlit.app/>
+
 ##  Key Features
 
 * **🤖 AI-Powered Job Profiles:** Integrates with OpenRouter (using Llama 3) to dynamically generate Job Descriptions, Requirements, and Key Competencies from a simple 'Role Purpose' input.
@@ -48,7 +51,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
 * PostgreSQL (a running database server, e.g., Supabase)
 * An OpenRouter Account (to get an API Key)
 
-### 2. Installation Instructions
+### 2. Installation Instructions locally
 
 1.  **Clone this repository:**
     ```bash
@@ -108,8 +111,8 @@ or
 
 directly accessed in 
 
-**[✨ Live Application Demo ✨](https://talent-intelligence-system-fakhri.streamlit.app/)**
----
+
+
 
 ## 🚀 How to Use the App
 
