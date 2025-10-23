@@ -107,11 +107,6 @@ This application shifts from subjective recruiting to data-driven matching. It d
 
 7.  Open `http://localhost:8501` in your browser.
 
-or
-
-directly accessed in 
-
-
 
 
 ## 🚀 How to Use the App
