@@ -90,7 +90,7 @@ This application shifts from subjective recruiting to data-driven matching. It d
     ```
     # Example for a local database or cloud DB
     DB_HOST=
-    DB_PORT=5432
+    DB_PORT=
     DB_NAME=
     DB_USER=
     DB_PASSWORD=
