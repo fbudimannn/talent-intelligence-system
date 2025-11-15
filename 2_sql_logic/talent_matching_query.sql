@@ -53,17 +53,7 @@ WHERE p.iq IS NOT NULL OR p.gtq IS NOT NULL
 GROUP BY e.department_id
 ),
 
-
---- STEP/CTE  1.D (Final Version): Clean, Join, and Impute All Main Data ---
----Objective: Replicate  `df_main_cleaned` from the notebook.
----1. Cleans MBTI typos ('intftj' -> 'UNKNOWN', UPPERCASE)
----2. Dynamically calculates the MBTI Mode (NOT hardcoded 'ENFP')
----3. Imputes NULL MBTI with the calculated mode
----4. JOINS all dimension tables (dim_department, dim_position, etc.)
----5. Imputes IQ and GTQ with departmental medians
----6. Imputes DISC from disc_word 
-
--- STEP 1.D.1: Clean MBTI Typos
+-- STEP 1.C.1: Clean MBTI Typos
 -- Objective: Clean typos BEFORE calculating the mode.
 
 mbti_cleaned_typos as(
@@ -76,7 +66,7 @@ SELECT
 FROM profiles_psych
 ),      
 
--- STEP 1.D.2: Calculate MBTI Mode
+-- STEP 1.C.2: Calculate MBTI Mode
 -- Objective: Find the most common MBTI value (Mode) from the cleaned data.
 mbti_mode as (
 SELECT 
@@ -203,7 +193,7 @@ SELECT
   CASE 
       WHEN LOWER(TRIM(theme)) IN ('', 'nan', 'none') THEN NULL
       ELSE theme
-  END as  theme
+  END as theme
 FROM strengths
 WHERE "rank" BETWEEN 1 AND 5 
 ),
@@ -213,7 +203,7 @@ WHERE "rank" BETWEEN 1 AND 5
 employee_top5_completeness as (
 SELECT
     employee_id,
-    COUNT(theme) as  top_5_valid_themes_count
+    COUNT(theme) as top_5_valid_themes_count
 FROM strengths_string_cleaned
 GROUP BY employee_id
 ),
