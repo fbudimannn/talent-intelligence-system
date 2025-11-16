@@ -92,7 +92,7 @@ def generate_job_profile(role_name, job_level, role_purpose):
         client = openai.OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
         # Make the API call to generate the job profile
         response = client.chat.completions.create(
-            model="meta-llama/llama-3.3-8b-instruct:free", # Using a capable free model
+            model="meta-llama/llama-3.3-70b-instruct:free", # Using a capable free model
             messages=[
                 {"role": "system", "content": "You are an expert HR assistant specializing in job profile creation."},
                 {"role": "user", "content": prompt}

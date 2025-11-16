@@ -53,7 +53,17 @@ WHERE p.iq IS NOT NULL OR p.gtq IS NOT NULL
 GROUP BY e.department_id
 ),
 
--- STEP 1.C.1: Clean MBTI Typos
+
+--- STEP/CTE  1.D (Final Version): Clean, Join, and Impute All Main Data ---
+---Objective: Replicate  `df_main_cleaned` from the notebook.
+---1. Cleans MBTI typos ('intftj' -> 'UNKNOWN', UPPERCASE)
+---2. Dynamically calculates the MBTI Mode (NOT hardcoded 'ENFP')
+---3. Imputes NULL MBTI with the calculated mode
+---4. JOINS all dimension tables (dim_department, dim_position, etc.)
+---5. Imputes IQ and GTQ with departmental medians
+---6. Imputes DISC from disc_word 
+
+-- STEP 1.D.1: Clean MBTI Typos
 -- Objective: Clean typos BEFORE calculating the mode.
 
 mbti_cleaned_typos as(
@@ -66,7 +76,7 @@ SELECT
 FROM profiles_psych
 ),      
 
--- STEP 1.C.2: Calculate MBTI Mode
+-- STEP 1.D.2: Calculate MBTI Mode
 -- Objective: Find the most common MBTI value (Mode) from the cleaned data.
 mbti_mode as (
 SELECT 
@@ -106,7 +116,7 @@ SELECT
         END as iq_imputed,
         CASE
             WHEN e.department_id = 4 THEN NULL
-            ELSE COALESCE(p_psych.gtq, cog_m.median_gtq) -- Assuming 'gtq' is total
+            ELSE COALESCE(p_psych.gtq, cog_m.median_gtq) 
         END as gtq_imputed,
     COALESCE(mbti_clean.mbti_cleaned, mbti_m.mbti_mode_value) as mbti_final,
     COALESCE(p_psych.disc, 
@@ -255,7 +265,7 @@ papi_cleaned_imputed as (
 
 target_vacancy as(
   SELECT 
-    ARRAY['EMP100012', 'EMP100524', 'EMP100548']::text[] as selected_talent_ids 
+    ARRAY['EMP100012','EMP100524','EMP100548']::text[] as selected_talent_ids 
 ),
 
 -- STEP/CTE 2.B: Calculate the "Ideal" Benchmark Baseline
@@ -319,7 +329,7 @@ benchmark_baseline as(
       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY m.tenure_months) as baseline_tenure
   
   FROM 
-    (SELECT unnest(ARRAY['EMP100012', 'EMP100524', 'EMP100548']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
+    (SELECT unnest(ARRAY['EMP100012','EMP100524','EMP100548']::text[]) as employee_id FROM target_vacancy) as benchmark_ids  -- Benchmark Employees
   
   LEFT JOIN main_cleaned_imputed as m 
   ON benchmark_ids.employee_id = m.employee_id
@@ -343,7 +353,7 @@ benchmark_baseline as(
   LEFT JOIN
     (SELECT 
         employee_id,
-        AVG(score_imputed) FILTER (WHERE pillar_code = 'SEA') as avg_sea,
+        AVG(score_imputed) FILTER (WHERE pillar_code = 'SEA') as avg_sea,  ---Using Average for standarization although it only has single value
         AVG(score_imputed) FILTER (WHERE pillar_code = 'QDD') as avg_qdd,
         AVG(score_imputed) FILTER (WHERE pillar_code = 'FTC') as avg_ftc,
         AVG(score_imputed) FILTER (WHERE pillar_code = 'IDS') as avg_ids,
@@ -691,13 +701,9 @@ individual_scores as (
             CASE WHEN user_score = baseline_score THEN 100.0 ELSE 0.0 END
 
             -- Numeric: proporsional user / baseline, limit to 0..100
-            WHEN tv_type = 'numeric' THEN
-                CASE
-                    WHEN user_score IS NULL OR baseline_score IS NULL THEN 0.0
-                    ELSE
-                        GREATEST(0.0,
-                            LEAST(100.0,
-                                ( user_score::numeric / NULLIF(baseline_score::numeric, 0) ) * 100.0))END
+        WHEN tv_type = 'numeric' THEN
+            CASE WHEN user_score IS NULL OR baseline_score IS NULL THEN 0.0
+                ELSE GREATEST(0.0, LEAST(100.0, ( user_score::numeric / NULLIF(baseline_score::numeric, 0) ) * 100.0))END
         ELSE 0.0
         END as match_score
     FROM comparison_table
