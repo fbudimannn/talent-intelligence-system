@@ -321,7 +321,6 @@ benchmark_baseline as(
       -- Categorical -> Mode
       MODE() WITHIN GROUP (ORDER BY m.education_level) as baseline_education,
       MODE() WITHIN GROUP (ORDER BY m.major) as baseline_major,
-      MODE() WITHIN GROUP (ORDER BY m.department) as baseline_department,
       MODE() WITHIN GROUP (ORDER BY m.position) as baseline_position,
       MODE() WITHIN GROUP (ORDER BY m.area) as baseline_area,
 
@@ -569,12 +568,6 @@ all_employees_unpivoted as (
       'categorical' as tv_type
   FROM main_cleaned_imputed
 
-  UNION ALL
-  SELECT 
-      employee_id, 'Contextual (Background)' as tgv_name, 'Department' as tv_name, 
-      department as user_score, 
-      'categorical' as tv_type
-  FROM main_cleaned_imputed
 
   UNION ALL
   SELECT 
@@ -660,8 +653,6 @@ UNION ALL
 SELECT 'Contextual (Background)', 'Education', baseline_education, 'categorical' FROM benchmark_baseline
 UNION ALL
 SELECT 'Contextual (Background)', 'Major', baseline_major, 'categorical' FROM benchmark_baseline
-UNION ALL
-SELECT 'Contextual (Background)', 'Department', baseline_department, 'categorical' FROM benchmark_baseline
 UNION ALL
 SELECT 'Contextual (Background)', 'Position', baseline_position, 'categorical' FROM benchmark_baseline
 UNION ALL
