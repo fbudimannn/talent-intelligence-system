@@ -1,3 +1,18 @@
+-- === MODEL V2.0 - REFINEMENT NOTES ===
+-- This SQL script reflects the final, optimized model presented in the report.
+-- Key refinements from the initial exploration include:
+--
+-- 1. (REMOVED) 'Department': Removed from the final model, making the model more efficient.
+--
+-- 2. (ADDED) Inverse PAPI Logic: Implemented inverse scoring for 'Papi_S', 'Papi_G', and 'Papi_T'.
+--    Deeper analysis revealed high performers score *lower* in these areas,
+--    showing a "work smarter, more independent" profile that the model now captures.
+--
+-- 3. (CLEANED) Redundant comments from the exploration phase have been removed for clarity.
+-- === END OF NOTES ===
+
+
+
 ---- PHASE 1: DATA CLEANING AND IMPUTATION------
 
 --- STEP/CTE 1.A: Calculating Competency Medians ---
@@ -553,7 +568,7 @@ all_employees_unpivoted as (
       'categorical' as tv_type
   FROM strengths_cleaned WHERE "rank" = 5
 
-  -- 5. TGV: Contextual (Background) (6 TV)
+  -- 5. TGV: Contextual (Background) (5 TV)
   UNION ALL
   SELECT 
       employee_id, 'Contextual (Background)' as tgv_name, 'Education' as tv_name, 
