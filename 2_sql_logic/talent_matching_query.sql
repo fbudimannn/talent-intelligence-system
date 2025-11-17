@@ -700,10 +700,14 @@ individual_scores as (
         WHEN tv_type = 'categorical' THEN
             CASE WHEN user_score = baseline_score THEN 100.0 ELSE 0.0 END
 
-            -- Numeric: proporsional user / baseline, limit to 0..100
-        WHEN tv_type = 'numeric' THEN
-            CASE WHEN user_score IS NULL OR baseline_score IS NULL THEN 0.0
-                ELSE GREATEST(0.0, LEAST(100.0, ( user_score::numeric / NULLIF(baseline_score::numeric, 0) ) * 100.0))END
+          -- Numeric: proporsional user / baseline, limit to 0..100
+            WHEN tv_type = 'numeric' THEN
+                CASE WHEN user_score IS NULL OR baseline_score IS NULL THEN 0.0
+                   
+                --Inverse scale for if scoring direction lower is better since it represents the high performer work style for Papi,T S,G
+                WHEN tv_name in ('Papi_T','Papi_S','Papi_G') THEN GREATEST(0.0, LEAST(100.0,( (2* baseline_score::numeric - user_score::numeric) / NULLIF(baseline_score::numeric, 0) ) * 100.0))
+
+                ELSE GREATEST(0.0, LEAST(100.0,( user_score::numeric / NULLIF(baseline_score::numeric, 0) ) * 100.0)) END
         ELSE 0.0
         END as match_score
     FROM comparison_table
