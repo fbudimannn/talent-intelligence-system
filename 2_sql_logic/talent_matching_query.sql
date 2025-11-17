@@ -750,13 +750,12 @@ weights_mapping (tv_name, weight) AS (
         ('Strength_4', 0.01),
         ('Strength_5', 0.01),
         
-        -- 5. Contextual (Background) (Total: 0.175 / 6 TV = 0.02917 per TV)
-        ('Education', 0.02917),
-        ('Major', 0.02917),
-        ('Department', 0.02917),
-        ('Position', 0.02917),
-        ('Area', 0.02917),
-        ('Tenure', 0.02917)
+        -- 5. Contextual (Background) (Total: 0.175 / 5 TV = 0.035 per TV)
+        ('Education', 0.035),
+        ('Major', 0.035),
+        ('Position', 0.035),
+        ('Area', 0.035),
+        ('Tenure', 0.035)
 
 ),
 
