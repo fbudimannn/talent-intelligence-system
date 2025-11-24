@@ -724,14 +724,14 @@ individual_scores as (
 weights_mapping (tv_name, weight) AS (
     VALUES
         -- 1. Competency (Total: 0.675) - According to the TGV Map
-        ('SEA', 0.1125),
-        ('QDD', 0.1125),
-        ('FTC', 0.075),
-        ('IDS', 0.075),
-        ('VCU', 0.075),
-        ('STO_LIE', 0.075),
-        ('CSI', 0.075),
-        ('CEX_GDR', 0.075),
+        ('SEA', 0.084375),
+        ('QDD', 0.084375),
+        ('FTC', 0.084375),
+        ('IDS', 0.084375),
+        ('VCU', 0.084375),
+        ('STO_LIE', 0.084375),
+        ('CSI', 0.084375),
+        ('CEX_GDR', 0.084375),
         
         -- 2. Psychometric (Cognitive) (Total: 0.05 / 5 TV = 0.01 per TV)
         ('IQ', 0.01),
